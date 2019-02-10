@@ -127,12 +127,16 @@ function useFetch({
 
       setFetching(true);
 
-      return fetchDedupe(url, {
-        method,
-        signal: abortControllerRef.current.signal,
-        body: init.body ? stringifyIfJSON(init) : undefined,
-        ...init
-      })
+      return fetchDedupe(
+        url,
+        {
+          method,
+          signal: abortControllerRef.current.signal,
+          body: init.body ? stringifyIfJSON(init) : undefined,
+          ...init
+        },
+        { requestKey: finalRequestKey }
+      )
         .then(response => {
           if (shouldCacheResponse()) {
             responseCache.set(finalRequestKey, response);

@@ -1,7 +1,7 @@
 {
   "name": "@bjornagh/use-fetch",
-  "version": "0.0.1",
-  "description": "use-fetch-nwb React component",
+  "version": "0.0.4",
+  "description": "An easy-to-use React hook for doing fetch requests",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
@@ -24,7 +24,7 @@
     "fetch-dedupe": "^3.0.0"
   },
   "peerDependencies": {
-    "react": "16.x"
+    "react": ">= 16.8.0"
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
@@ -46,6 +46,10 @@
   "license": "MIT",
   "repository": "",
   "keywords": [
-    "react-component"
+    "react-component",
+    "react",
+    "react-hooks",
+    "hooks",
+    "fetch"
   ]
 }
