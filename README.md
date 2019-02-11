@@ -76,10 +76,13 @@ Return value
 |------|-------------|---------------|
 | response | [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) | [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) |
 | data | * | Request data response |
-| fetching | bool | Whether request is in-flight or not |
+| fetching | Boolean | Whether request is in-flight or not |
 | error | `Error` | Any errors from `fetch` |
-| requestKey | string | Key used as cache key and to prevent duplicate requests |
+| requestKey | String | The key used as cache key and to prevent duplicate requests |
 | doFetch | Function | A function to initiate a request manually. Takes one argument: `init`, an object that is sent to `fetch`. See https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch (`init` argument for which keys are supported). Returns a promise. |
+
+NOTE: Requests with `Content-type` set to `application/json` will automatically have their body
+stringified (`JSON.stringify`)
 
 ### `cachePolicy`
 * `cache-first` - Uses response in cache if available. Makes request if not.
@@ -87,7 +90,70 @@ Return value
 * `network-only` - Ignores cache and always makes a request.
 
 Read requests (GET, OPTIONS, HEAD) default to `cache-first`.
-Write reqeusts (POST, DELETE, PUT, PATCH) default to `network-only`.
+
+Write requests (POST, DELETE, PUT, PATCH) default to `network-only`.
+
+## Examples
+
+### POST request
+
+```jsx
+function Demo() {
+  const createPostFetch = useFetch({
+    url: "https://jsonplaceholder.typicode.com/posts",
+    method: "POST",
+    init: {
+      headers: {
+        "Content-type": "application/json"
+      }
+    }
+  });
+
+  return (
+    <button
+      onClick={() =>
+        createPostFetch
+          .doFetch({
+            body: {
+              title: "foo",
+              body: "bar",
+              userId: 1
+            }
+          })
+          .then(() =>
+          // Do something after POST is successful
+         )
+      }
+      disabled={createPostFetch.fetching}
+    >
+      Create post
+    </button>
+  );
+}
+```
+
+### How to set base URL, default headers and so on
+
+Create your custom fetch hook. For example:
+
+```jsx
+function useCustomUseFetch({ url, init = {}, ...rest }) {
+  // Prefix URL with API root
+  const apiRoot = "https://my-api-url.com/";
+  const finalUrl = `${apiRoot}${url}`;
+
+  // Set a default header
+  const finalHeaders = { ...init.headers };
+  finalHeaders["Content-type"] = "application/json";
+
+  // Ensure headers are sent to fetch
+  init.headers = finalHeaders;
+
+  return useFetch({ url: finalUrl, init, ...rest });
+}
+```
+
+With a custom hook you could also set up a default error handler that show a toast message for example.
 
 ## Credits
 

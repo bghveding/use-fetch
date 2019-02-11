@@ -120,23 +120,24 @@ function useFetch({
   }
 
   const doFetch = useCallback(
-    (init = {}) => {
+    (doFetchInit = {}) => {
       cancelRunningRequest();
 
       abortControllerRef.current = new AbortController();
 
       setFetching(true);
 
-      return fetchDedupe(
-        url,
-        {
-          method,
-          signal: abortControllerRef.current.signal,
-          body: init.body ? stringifyIfJSON(init) : undefined,
-          ...init
-        },
-        { requestKey: finalRequestKey }
-      )
+      const finalInit = {
+        ...init,
+        ...doFetchInit
+      };
+
+      return fetchDedupe(url, {
+        ...finalInit,
+        method,
+        signal: abortControllerRef.current.signal,
+        body: finalInit.body ? stringifyIfJSON(finalInit) : undefined
+      })
         .then(response => {
           if (shouldCacheResponse()) {
             responseCache.set(finalRequestKey, response);
@@ -163,7 +164,7 @@ function useFetch({
 
   // Start requesting onMount if not lazy
   // Start requesting if isLazy goes from true to false
-  // Start requesting every time the request key changes (i.e. URL, method or headers) if not lazy
+  // Start requesting every time the request key changes (i.e. URL, method, init.body or init.responseType) if not lazy
   useEffect(() => {
     // Do not start request automatically when in lazy mode
     if (isLazy === true) {
@@ -200,7 +201,7 @@ function useFetch({
     data: state.response ? state.response.data : null,
     fetching: state.fetching,
     error: state.error,
-    requestKey,
+    requestKey: finalRequestKey,
     doFetch
   };
 }

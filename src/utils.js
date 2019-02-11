@@ -17,7 +17,9 @@ export const getHeader = (headers, keyToFind) => {
 };
 
 export const stringifyIfJSON = fetchOptions => {
-  if (getHeader(fetchOptions.headers, "Content-Type") === "application/json") {
+  const contentType = getHeader(fetchOptions.headers, "Content-Type");
+
+  if (contentType && contentType.indexOf("application/json") !== -1) {
     return JSON.stringify(fetchOptions.body);
   }
 

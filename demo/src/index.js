@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { render } from "react-dom";
 import { FetchProvider, useFetch } from "../../src";
+
 const cache = new Map();
 
 function Demo() {
@@ -9,8 +10,35 @@ function Demo() {
     url: url
   });
 
+  const createPostFetch = useFetch({
+    url: "https://jsonplaceholder.typicode.com/posts",
+    method: "POST",
+    init: {
+      headers: {
+        "Content-type": "application/json"
+      }
+    }
+  });
+
   return (
     <div className="App">
+      <button
+        onClick={() =>
+          createPostFetch
+            .doFetch({
+              body: {
+                title: "foo",
+                body: "bar",
+                userId: 1
+              }
+            })
+            .then(() => doFetch())
+        }
+        disabled={createPostFetch.fetching}
+      >
+        Create post
+      </button>
+
       <button
         onClick={() => setUrl("https://jsonplaceholder.typicode.com/posts")}
       >
