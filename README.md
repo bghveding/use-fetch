@@ -137,6 +137,8 @@ function Demo() {
 Create your custom fetch hook. For example:
 
 ```jsx
+import { useFetch } from "@bjornagh/use-fetch";
+
 function useCustomUseFetch({ url, init = {}, ...rest }) {
   // Prefix URL with API root
   const apiRoot = "https://my-api-url.com/";
