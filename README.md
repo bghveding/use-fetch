@@ -77,7 +77,7 @@ Return value
 | response | [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) | [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) |
 | data | * | Request data response |
 | fetching | Boolean | Whether request is in-flight or not |
-| error | `Error` | Any errors from `fetch` |
+| error | [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) | Any errors from `fetch` |
 | requestKey | String | The key used as cache key and to prevent duplicate requests |
 | doFetch | Function | A function to initiate a request manually. Takes one argument: `init`, an object that is sent to `fetch`. See https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch (`init` argument for which keys are supported). Returns a promise. |
 
