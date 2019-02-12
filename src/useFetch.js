@@ -139,12 +139,16 @@ function useFetch({
         body: finalInit.body ? stringifyIfJSON(finalInit) : undefined
       })
         .then(response => {
-          if (shouldCacheResponse()) {
-            responseCache.set(finalRequestKey, response);
+          if (!response.ok) {
+            setError(response);
+            onError(response);
+          } else {
+            if (shouldCacheResponse()) {
+              responseCache.set(finalRequestKey, response);
+            }
+            setResponse(response);
+            onSuccess(response);
           }
-
-          setResponse(response);
-          onSuccess(response);
 
           return response;
         })
