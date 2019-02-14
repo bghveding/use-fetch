@@ -95,11 +95,18 @@ Write requests (POST, DELETE, PUT, PATCH) default to `network-only`.
 
 ## Examples
 
-### POST request
+### POST request and update view afterwards
 
 ```jsx
 function Demo() {
-  const createPostFetch = useFetch({
+  // Fetch list of posts
+  const posts = useFetch({
+    url: "https://jsonplaceholder.typicode.com/posts"
+  });
+
+  // Prepare create request
+  // This will not be initiated until you call `createPost.doFetch()`
+  const createPost = useFetch({
     url: "https://jsonplaceholder.typicode.com/posts",
     method: "POST",
     init: {
@@ -110,24 +117,34 @@ function Demo() {
   });
 
   return (
-    <button
-      onClick={() =>
-        createPostFetch
-          .doFetch({
-            body: {
-              title: "foo",
-              body: "bar",
-              userId: 1
-            }
-          })
-          .then(() =>
-          // Do something after POST is successful
-         )
-      }
-      disabled={createPostFetch.fetching}
-    >
-      Create post
-    </button>
+    <div>
+      <button
+        onClick={() =>
+          createPost
+            .doFetch({
+              body: {
+                title: "foo",
+                body: "bar",
+                userId: 1
+              }
+            })
+            .then(response => {
+              if (response.ok) {
+                // POST request was successful, refetch list of posts
+                posts.doFetch();
+              } else {
+                // Do something with error response
+              }
+            })
+        }
+        disabled={createPost.fetching}
+      >
+        Create post
+      </button>
+
+      {!posts.data && posts.fetching && "Loading..."}
+      {posts.data && posts.data.map(x => <h2 key={x.id}>{x.title}</h2>)}
+    </div>
   );
 }
 ```
