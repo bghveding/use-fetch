@@ -64,7 +64,7 @@ See more examples in the examples section [examples section ](https://github.com
 |------|--------------|--------------|
 | url | | URL to send request to |
 | method | GET | HTTP method |
-| lazy | null | Lazy mode determines if a request should be done on mount and when the request parameters change (e.g. URL) or not. When null only GET requests are initiated when mounted and if for example the URL changes. If `true` this applies to all rqeuests regardless of HTTP method. If `false`, requests are only initiated manually by calling `doFetch`, a function returned by `useFetch`|
+| lazy | null | Lazy mode determines if a request should be done on mount and when the request parameters change (e.g. URL) or not. When null only GET requests are initiated when mounted and if for example the URL changes. If `true` this applies to all requests regardless of HTTP method. If `false`, requests are only initiated manually by calling `doFetch`, a function returned by `useFetch`|
 | init | {} | See https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch `init` argument for which keys are supported |
 | cacheResponse | true if read request, false if write | Cache response or not |
 | requestKey | null | requestKey is used as cache key and to prevent duplicate requests. Generated automatically if nothing is passed. |
@@ -153,7 +153,7 @@ function Demo() {
 
 ### Delay fetching using the `lazy` prop
 
-Setting the `lazy` parameter to true tells useFetch to not start requesting on mount or when
+Setting the `lazy` parameter to `true` tells `useFetch` to not start requesting on mount or when
 the request parameters change.
 
 You can change this at any time. A common pattern where this feature is useful is when you want the
