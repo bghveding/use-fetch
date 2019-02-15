@@ -55,6 +55,8 @@ function MyComponent() {
 }
 ```
 
+See more examples in the examples section [examples section ](https://github.com/bghveding/use-fetch#Examples).
+
 ## API
 `useFetch` accepts an object that supports the following properties
 
@@ -62,7 +64,7 @@ function MyComponent() {
 |------|--------------|--------------|
 | url | | URL to send request to |
 | method | GET | HTTP method |
-| lazy | null | Lazy modes determines if a request should be done on mount or not. When null, GET requests are initiated on mount. If `true` all requests are initiated on mount, regardless of HTTP method. If `false`, requests are only initiated manually by calling `doFetch`, a function returned by `useFetch`|
+| lazy | null | Lazy mode determines if a request should be done on mount and when the request parameters change (e.g. URL) or not. When null only GET requests are initiated when mounted and if for example the URL changes. If `true` this applies to all rqeuests regardless of HTTP method. If `false`, requests are only initiated manually by calling `doFetch`, a function returned by `useFetch`|
 | init | {} | See https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch `init` argument for which keys are supported |
 | cacheResponse | true if read request, false if write | Cache response or not |
 | requestKey | null | requestKey is used as cache key and to prevent duplicate requests. Generated automatically if nothing is passed. |
@@ -144,6 +146,34 @@ function Demo() {
 
       {!posts.data && posts.fetching && "Loading..."}
       {posts.data && posts.data.map(x => <h2 key={x.id}>{x.title}</h2>)}
+    </div>
+  );
+}
+```
+
+### Delay fetching using the `lazy` prop
+
+Setting the `lazy` parameter to true tells useFetch to not start requesting on mount or when
+the request parameters change.
+
+You can change this at any time. A common pattern where this feature is useful is when you want the
+user to apply some filters before you initiate a request.
+
+Below is an example where a request is delayed until a search input contains at least two characters.
+
+```jsx
+function LazyDemo() {
+  const [searchFilter, setSearchFilter] = useState("");
+  const posts = useFetch({
+    url: `/posts?search=${searchFilter}`,
+    lazy: searchFilter.length < 2 // Request is lazy as long as the input has less than two characters
+  });
+
+  return (
+    <div>
+      <input onChange={event => setSearchFilter(event.target.value)} />
+
+      {posts.data && posts.data.map(x => <div key={x.id}>{x.title}</div>)}
     </div>
   );
 }
