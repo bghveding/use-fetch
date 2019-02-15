@@ -40,6 +40,7 @@ function reducer(state, action) {
     case "response": {
       return {
         ...state,
+        error: null,
         fetching: action.payload.fetching,
         response: action.payload.response
       };
