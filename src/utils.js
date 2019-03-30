@@ -8,9 +8,10 @@ export const getHeader = (headers, keyToFind) => {
     return headers.get(keyToFind);
   }
 
+  const keyToFindLowercase = keyToFind.toLowerCase();
   // Convert keys to lowerCase so we don't run into case sensitivity issues
   const headerKey = Object.keys(headers).find(
-    headerKey => headerKey.toLowerCase() === keyToFind.toLowerCase()
+    headerKey => headerKey.toLowerCase() === keyToFindLowerCase
   );
 
   return headerKey ? headers[headerKey] : null;
