@@ -66,6 +66,7 @@ See more examples in the examples section [examples section ](https://github.com
 | method | GET | HTTP method |
 | lazy | null | Lazy mode determines if a request should be done on mount and when the request parameters change (e.g. URL) or not. When null only GET requests are initiated when mounted and if for example the URL changes. If `true` this applies to all requests regardless of HTTP method. If `false`, requests are only initiated manually by calling `doFetch`, a function returned by `useFetch`|
 | init | {} | See https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch `init` argument for which keys are supported |
+| dedupeOptions | {} | See https://github.com/jamesplease/fetch-dedupe#user-content-api `dedupeOptions` argument for which keys are supported |
 | cacheResponse | true if read request, false if write | Cache response or not |
 | requestKey | null | requestKey is used as cache key and to prevent duplicate requests. Generated automatically if nothing is passed. |
 | cachePolicy | null | [Caching strategy](https://github.com/bghveding/use-fetch#cachepolicy) |
