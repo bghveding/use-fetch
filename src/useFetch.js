@@ -64,6 +64,7 @@ function useFetch({
   lazy = null,
   requestKey = null,
   init = {},
+  dedupeOptions = {},
   cachePolicy = null,
   cacheResponse = null,
   onError = defaultOnError,
@@ -121,7 +122,7 @@ function useFetch({
   }
 
   const doFetch = useCallback(
-    (doFetchInit = {}) => {
+    (doFetchInit = {}, doFetchDedupeOptions = {}) => {
       cancelRunningRequest();
 
       abortControllerRef.current = new AbortController();
@@ -132,13 +133,18 @@ function useFetch({
         ...init,
         ...doFetchInit
       };
+      
+      const finalDedupeOptions = {
+        ...dedupeOptions,
+        ...doFetchDedupeOptions
+      };
 
       return fetchDedupe(url, {
         ...finalInit,
         method,
         signal: abortControllerRef.current.signal,
         body: finalInit.body ? stringifyIfJSON(finalInit) : undefined
-      })
+      }, finalDedupeOptions)
         .then(response => {
           if (!response.ok) {
             setError(response);
