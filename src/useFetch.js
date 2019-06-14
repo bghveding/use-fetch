@@ -58,6 +58,8 @@ function reducer(state, action) {
   }
 }
 
+const defaultRefreshDoFetch = requestKey => requestKey;
+
 function useFetch({
   url,
   method = "GET",
@@ -68,7 +70,8 @@ function useFetch({
   cachePolicy = null,
   cacheResponse = null,
   onError = defaultOnError,
-  onSuccess = defaultOnSuccess
+  onSuccess = defaultOnSuccess,
+  refreshDoFetch = defaultRefreshDoFetch
 }) {
   const responseCache = useFetchContext();
 
@@ -140,7 +143,7 @@ function useFetch({
       };
 
       return fetchDedupe(
-        url,
+        finalInit.url || url,
         {
           ...finalInit,
           method,
@@ -174,7 +177,7 @@ function useFetch({
           abortControllerRef.current = null;
         });
     },
-    [finalRequestKey]
+    [refreshDoFetch(finalRequestKey)]
   );
 
   // Start requesting onMount if not lazy

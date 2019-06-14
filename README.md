@@ -70,6 +70,7 @@ See more examples in the examples section [examples section ](https://github.com
 | cacheResponse | true if read request, false if write | Cache response or not |
 | requestKey | null | requestKey is used as cache key and to prevent duplicate requests. Generated automatically if nothing is passed. |
 | cachePolicy | null | [Caching strategy](https://github.com/bghveding/use-fetch#cachepolicy) |
+| refreshDoFetch | Function | By default doFetch method is cached by using the request (url+method+body). Use this to override if you get a stale doFetch. It receives one argument, the default request key. e.g. `requestKey => requestKey + 'something'` |
 | onError | Function | A callback function that is called anytime a fetch fails. Receives an `Error` as only argument. Logs to console by default |
 | onSuccess | Function | A callback function that is called anytime a fetch succeeds. Receives a fetch [`Response`](https://developer.mozilla.org/en-US/docs/Web/API/Response) as only argument. Does nothing by default (noop) |
 
