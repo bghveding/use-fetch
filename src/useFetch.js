@@ -133,18 +133,22 @@ function useFetch({
         ...init,
         ...doFetchInit
       };
-      
+
       const finalDedupeOptions = {
         ...dedupeOptions,
         ...doFetchDedupeOptions
       };
 
-      return fetchDedupe(url, {
-        ...finalInit,
-        method,
-        signal: abortControllerRef.current.signal,
-        body: finalInit.body ? stringifyIfJSON(finalInit) : undefined
-      }, finalDedupeOptions)
+      return fetchDedupe(
+        url,
+        {
+          ...finalInit,
+          method,
+          signal: abortControllerRef.current.signal,
+          body: finalInit.body ? stringifyIfJSON(finalInit) : undefined
+        },
+        finalDedupeOptions
+      )
         .then(response => {
           if (!response.ok) {
             setError(response);
