@@ -167,7 +167,10 @@ function useFetch({
           return response;
         })
         .catch(error => {
-          setError(error);
+          if (!abortControllerRef.current.signal.aborted) {
+            setError(error);
+          }
+
           onError(error);
 
           return error;
