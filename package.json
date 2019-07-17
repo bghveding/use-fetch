@@ -1,6 +1,6 @@
 {
   "name": "@bjornagh/use-fetch",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "An easy-to-use React hook for doing fetch requests",
   "main": "lib/index.js",
   "module": "es/index.js",
