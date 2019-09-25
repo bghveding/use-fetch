@@ -206,6 +206,12 @@ function useFetch({
       setResponse(cachedResponse, true);
     }
 
+    // Always fetch new data if request params change
+    if (cacheStrategy === CACHE_POLICIES.NETWORK_ONLY) {
+      // Reset response state since we are only interested in any cached response from previous request
+      setResponse(null);
+    }
+
     doFetch(init);
   }, [finalRequestKey, isLazy]);
 
