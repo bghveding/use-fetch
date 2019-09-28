@@ -91,6 +91,7 @@ stringified (`JSON.stringify`)
 ### `cachePolicy`
 * `cache-first` - Uses response in cache if available. Makes request if not.
 * `cache-and-network` - Uses response in cache if available, but will also always make a new request in the background in order to refresh any stale data.
+* `exact-cache-and-network` - Similar to `cache-and-network`, but will only show cached response if the requests are identical (url+method+body).
 * `network-only` - Ignores cache and always makes a request.
 
 Read requests (GET, OPTIONS, HEAD) default to `cache-first`.

@@ -6,6 +6,7 @@ import { stringifyIfJSON, isReadRequest } from "./utils";
 const CACHE_POLICIES = {
   NETWORK_ONLY: "network-only",
   CACHE_AND_NETWORK: "cache-and-network",
+  EXACT_CACHE_AND_NETWORK: "exact-cache-and-network",
   CACHE_FIRST: "cache-first"
 };
 
@@ -204,6 +205,18 @@ function useFetch({
     if (cacheStrategy === CACHE_POLICIES.CACHE_AND_NETWORK && cachedResponse) {
       onSuccess(cachedResponse);
       setResponse(cachedResponse, true);
+    }
+
+    // Almost like 'cache-and-network', but this clears the previous request key's response
+    // and only shows a cached response if the request keys are identical
+    // In other words it won't show the previous request key's data while fetching
+    if (cacheStrategy === CACHE_POLICIES.EXACT_CACHE_AND_NETWORK) {
+      if (cachedResponse) {
+        onSuccess(cachedResponse);
+        setResponse(cachedResponse, true);
+      } else {
+        setResponse(null);
+      }
     }
 
     // Always fetch new data if request params change
