@@ -35,7 +35,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-plugin-react-hooks": "^1.0.1",
-    "nwb": "0.23.x",
+    "nwb": "0.25.x",
     "prettier": "^1.16.4",
     "pretty-quick": "^1.10.0",
     "react": "^16.8.1",
